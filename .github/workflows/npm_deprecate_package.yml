@@ -1,0 +1,35 @@
+author: '@VKCOM/VKUI-core'
+name: 'Deprecate NPM package'
+description: 'See https://docs.npmjs.com/deprecating-and-undeprecating-packages-or-package-versions'
+
+on:
+  workflow_call:
+    inputs:
+      package:
+        description: 'package`s name'
+        required: true
+      version:
+        description: 'type version: x.y.z (without "v")'
+        required: true
+      reason:
+        description: 'reason for deprecation (only latin supported)'
+        required: true
+      auth_token:
+        description: 'npm auth token'
+        required: true
+
+run-name: Deprecate ${{ inputs.package }}@${{ inputs.version }}
+
+jobs:
+  deprecate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Deprecate version
+        run: npm deprecate "${{ github.event.inputs.package }}@${{ github.event.inputs.version }}" "${{ github.event.inputs.reason }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ github.event.inputs.auth_token }}
