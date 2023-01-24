@@ -14,7 +14,8 @@ on:
       reason:
         description: 'reason for deprecation (only latin supported)'
         required: true
-      auth_token:
+    secrets:
+      npm_auth_token:
         description: 'npm auth token'
         required: true
 
@@ -30,6 +31,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Deprecate version
-        run: npm deprecate "${{ github.event.inputs.package }}@${{ github.event.inputs.version }}" "${{ github.event.inputs.reason }}"
+        run: npm deprecate "${{ inputs.package }}@${{ inputs.version }}" "${{ inputs.reason }}"
         env:
-          NODE_AUTH_TOKEN: ${{ github.event.inputs.auth_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.npm_auth_token }}
