@@ -1,17 +1,20 @@
-author: '@VKCOM/VKUI-core'
+# See https://docs.npmjs.com/deprecating-and-undeprecating-packages-or-package-versions
+# @author @VKCOM/VKUI-core
 name: 'Deprecate NPM package'
-description: 'See https://docs.npmjs.com/deprecating-and-undeprecating-packages-or-package-versions'
 
 on:
   workflow_call:
     inputs:
       package:
+        type: 'string'
         description: 'package`s name'
         required: true
       version:
+        type: 'string'
         description: 'type version: x.y.z (without "v")'
         required: true
       reason:
+        type: 'string'
         description: 'reason for deprecation (only latin supported)'
         required: true
     secrets:
